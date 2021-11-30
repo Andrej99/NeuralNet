@@ -73,9 +73,86 @@ int main()
     Matrix W1(2,2);
     Matrix W2(1,2);
 
-    Matrix b1 = Matrix(2,1);
+    Matrix b1 = Matrix(2,1,false);
+    Matrix b2 = Matrix(1,1,false);
+
+    const size_t n_iter =10000;
+
+    for (size_t i = 0; i < n_iter; i++)
+    {
+        size_t j = i % 4;
+
+        if(i%100 ==0)
+        printf("-");
+      
+
+        Matrix x =X.row(j).Transpose();
+        Matrix Z1 = W1 * x + b1 ;
+        Matrix A1 = Z1.copy();
+        A1.f(sigmoid);
+     
+        Matrix Z2 = W2 * A1 + b2;
+        Matrix A2 = Z2.copy();
+        A2.f(sigmoid);
+        
     
-    Matrix b2 = Matrix(2,1);
+        
+
+        Matrix D2 = (A2 - y.row(j).Transpose());
+       
+        Z2.f(d_sigmoid);
+        D2.Multiply(Z2);
+        
+
+        
+
+        Matrix D1 = W2.Transpose() * D2;
+        Z1.f(d_sigmoid);
+        D1.Multiply(Z1);
+
+       
+
+        Matrix DW2 = A1 * D2.Transpose();
+        Matrix DW1 = x * D1.Transpose();
+
+       
+        
+        DW1.f([](double x){return x*0.1;});
+        DW2.f([](double x){return x*0.1;});
+
+        D1.f([](double x){return x*0.1;});
+        D2.f([](double x){return x*0.1;});
+
+        W2 -= DW2.Transpose();
+        W1 -= DW1.Transpose();
+        b2 -= D2;
+        b1 -= D1;
+        
+
+        
+        
+
+        
+
+        
+}
+    puts("done");
+    for(size_t u = 0; u < 4; u++){
+       Matrix x =X.row(u).Transpose();
+        Matrix Z1 = W1 * x + b1 ;
+        Matrix A1 = Z1.copy();
+        A1.f(sigmoid);
+     
+        Matrix Z2 = W2 * A1 + b2;
+        Matrix A2 = Z2.copy();
+        A2.f(sigmoid);
+        print(A2);
+    }
+   
+    
+  
+
+
 
 
     

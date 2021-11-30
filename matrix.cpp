@@ -69,7 +69,7 @@ Matrix Matrix::Transpose()
  {
     Matrix result(n_columns,n_rows);
     
-    #pragma omp parallel for
+    //#pragma omp parallel for
     for(size_t n = 0; n<n_rows * n_columns; n++) {
         size_t i = n/n_rows;
         size_t j = n%n_rows;

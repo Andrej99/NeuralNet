@@ -14,7 +14,7 @@ class Matrix{
         {
             std::random_device rd;
             std::mt19937 g(rd());
-            std::uniform_real_distribution<> d(-2.5,2.5);
+            std::uniform_real_distribution<> d(-3,3);
 
             for (int i = 0; i < n_rows * n_columns; i++){
                 M[i] = d(g);
@@ -36,7 +36,7 @@ class Matrix{
         return M[i*n_columns + j];
     }
 
-    void apply(std::function<double(double)> &fn);
+  
     void VectorAdd(const Matrix &vector);
 
     void f(const std::function<double(double)> &fn);
